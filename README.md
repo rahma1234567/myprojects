@@ -1,3 +1,5 @@
+# anomlay_detection_FYP
+Finaly Year Project - Anomaly Detection System
 # Anomaly Detection System for Bank Transactions
 
 A Machine learning-based anomaly detection system for identifying suspicious
