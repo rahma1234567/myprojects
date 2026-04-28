@@ -1,0 +1,5 @@
+Metric,Isolation Forest,Autoencoder
+Accuracy,94.63%,90.46%
+Precision,48.00%,7.69%
+Recall,46.15%,7.69%
+F1-Score,47.06%,7.69%
