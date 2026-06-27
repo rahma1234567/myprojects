@@ -1,6 +1,0 @@
-2026-05-10 23:17:55 | WARNING | Failed login attempt: username=None
-2026-05-10 23:18:01 | INFO | User 'user' logged in as User
-2026-05-10 23:27:32 | INFO | [user] uploaded bank_transactions_data_2.csv (2512 rows)
-2026-05-10 23:27:33 | INFO | [user] pipeline OK: Isolation Forest on bank_transactions_data_2.csv
-2026-05-10 23:32:06 | INFO | [user] uploaded bank_transactions_data_2.csv (2512 rows)
-2026-05-10 23:32:06 | INFO | [user] pipeline OK: Autoencoder on bank_transactions_data_2.csv

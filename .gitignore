@@ -20,3 +20,5 @@ secrets.yaml
 .pytest_cache/
 .coverage
 htmlcov/
+*.log
+logs/
