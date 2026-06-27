@@ -1,6 +1,4 @@
-"""
-Upload page - takes a CSV, runs inference, shows metrics + flagged table.
-"""
+# Upload page - takes a CSV, runs inference, shows metrics + flagged table.
 import hashlib
 import pandas as pd
 import streamlit as st
@@ -25,6 +23,8 @@ def render(model_choice: str, username: str) -> None:
             st.write(REQUIRED_COLUMNS)
         st.info("Upload a file to begin.")
         return
+    
+    
 
     # Read once per upload; cache by content hash
     file_bytes = uploaded.getvalue()
@@ -59,19 +59,26 @@ def render(model_choice: str, username: str) -> None:
         log_info(f"[{username}] pipeline OK: {model_choice} on {uploaded.name}")
 
     results, score_col, default_thr = st.session_state[cache_key]
+    
+    
 
     # Threshold slider in sidebar
     score_range = (float(results[score_col].min()), float(results[score_col].max()))
     threshold = threshold_slider(score_col, default_thr, score_range)
 
-    # Apply threshold
+
+
+
+    # Applying threshold
     flagged_df = apply_threshold(results, score_col, threshold)
     st.session_state["current_results"] = flagged_df
     st.session_state["current_model"]   = model_choice
     st.session_state["current_score_col"] = score_col
 
-    # Log anomalies (deduped by file+model+threshold)
+    # Log anomalies
     log_flagged_once(flagged_df, model_choice, username, threshold, file_hash)
+
+
 
     # ---------- Metrics ----------
     n_total    = len(flagged_df)
@@ -87,6 +94,9 @@ def render(model_choice: str, username: str) -> None:
 
     st.markdown("---")
 
+
+
+
     # ---------- Flagged transactions table ----------
     st.subheader(f"Flagged transactions ({n_anom})")
     if n_anom == 0:
@@ -101,10 +111,14 @@ def render(model_choice: str, username: str) -> None:
                     "Risk", "risk_pct", score_col]
     st.dataframe(show[display_cols], use_container_width=True, height=420)
 
+
+
+
+
+
     # ---------- Download button ----------
     csv = show.to_csv(index=False).encode("utf-8")
     st.download_button(
         "Download flagged transactions (CSV)", csv,
         f"flagged_{model_choice.replace(' ', '_').lower()}_{file_hash}.csv",
-        "text/csv",
-    )
+        "text/csv",)

@@ -100,8 +100,6 @@ def _show_ae_per_feature_error(tx: pd.Series, df: pd.DataFrame) -> None:
     Re-run autoencoder on this transaction (and its peers) and show which
     features had the largest reconstruction error.
     """
-    # Reuse the same preprocessing for the *entire* batch, then pick out the row.
-    # This guarantees the AE input matches training-time scaling.
     raw_for_pipeline = df[
         ["TransactionID", "AccountID", "TransactionAmount", "TransactionDate",
          "TransactionType", "Location", "DeviceID", "IP Address", "MerchantID",

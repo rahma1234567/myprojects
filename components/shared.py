@@ -12,10 +12,6 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parents[1]))
 from logger import log_anomaly  # noqa: E402
 
-
-# ---------------------------------------------------------------
-# Threshold slider - lets the user override the model's default
-# ---------------------------------------------------------------
 def threshold_slider(score_col: str, default: float, score_range: tuple[float, float]) -> float:
     """Display a sidebar slider for the score threshold, return the chosen value."""
     lo, hi = score_range
@@ -31,18 +27,13 @@ def threshold_slider(score_col: str, default: float, score_range: tuple[float, f
              "Lower = looser (more alerts, higher recall).",
     )
 
-
-# ---------------------------------------------------------------
 # Risk percentage - re-flag using the chosen threshold
-# ---------------------------------------------------------------
 def apply_threshold(df: pd.DataFrame, score_col: str, threshold: float) -> pd.DataFrame:
     """Re-flag rows using the threshold and compute a relative risk percentage."""
     df = df.copy()
     df["is_anomaly"] = (df[score_col] > threshold).astype(int)
 
-    # Risk percentage: how far above threshold the score is, capped at the
-    # observed max. Below threshold = 0%. Anchored to threshold so the slider
-    # has a visible effect on the percentage.
+    # Risk percentage: how far above threshold the score is, capped at the observed max. Below threshold = 0%
     score = df[score_col].to_numpy()
     above = score - threshold
     max_above = above.max() if (above > 0).any() else 1.0
@@ -57,10 +48,7 @@ def _risk_level(pct: float) -> str:
     if pct >  0:  return "Low"
     return "None"
 
-
-# ---------------------------------------------------------------
 # Anomaly logging with dedupe per (file, model, threshold)
-# ---------------------------------------------------------------
 def log_flagged_once(df: pd.DataFrame, model: str, username: str,
                      threshold: float, file_signature: Optional[str]) -> None:
     """
@@ -91,10 +79,7 @@ def log_flagged_once(df: pd.DataFrame, model: str, username: str,
         )
     st.session_state[log_key] = True
 
-
-# ---------------------------------------------------------------
 # Risk badge styling for tables
-# ---------------------------------------------------------------
 RISK_EMOJI = {"High": "🟥", "Medium": "🟨", "Low": "🟩", "None": "⬜"}
 
 def risk_badge(level: str) -> str:
